@@ -35,7 +35,7 @@ def ping_pong_filter(arr)
   result
 end
 
-p ping_pong_filter([3, 5, 7, 8, 9, 2])
+# p ping_pong_filter([3, 5, 7, 8, 9, 2])
 
 
 ### Rock Paper Scissors Bot ###
@@ -62,25 +62,50 @@ p ping_pong_filter([3, 5, 7, 8, 9, 2])
 # rps_bot("rprs") # => "xpxp"
 # rps_bot("srpsrp") # => "xrxxrx"
 # rps_bot("rpsssprrr") # => "xpxxrrrrx"
+
 def rps_bot(str)
   # probably scan the string and generate a counter hash
-  player_moves_made = {}
-  bot_move_response = ""
+  player_moves_made = Hash.new(0)
+  bot_move_response = "x"
 
-  str.chars.each do |ch|
-    bot_move_response += gen_bot_move(player_moves_made)
+  str.chars.each_with_index do |el, idx|
+    player_moves_made[el] += 1
+    bot_move_response += gen_bot_move(player_moves_made) unless idx == str.length - 1
   end
   # output string of same length as a response
+  bot_move_response
 end
 
 def gen_bot_move(prev_player_moves)
-  prev_player_moves.keys.each do |move|
-    return 'r' if prev_player_moves[move] > 
+  trending_move = nil
+  trending_move_count = 0
+
+  prev_player_moves.each do |k, v|
+    trending_move = 'x' if trending_move.nil?
+    if v > trending_move_count
+      trending_move = k.to_s
+      trending_move_count = v
+    elsif v == trending_move_count
+      trending_move = 'x'
+    end
   end
+
+  case trending_move
+  when 'r'
+    return 'p'
+  when 's'
+    return 'r'
+  when 'p'
+    return 's'
+  when 'x'
+    return 'x'
+  end
+
 end
 
 p rps_bot("rpsssprrr")
 # => "xpxxrrrrx"
+     "xpxxrrrrxp"
 
 # ### Pascal's Triangle ####
 # This is an example of Pascal's Triangle:
@@ -148,7 +173,7 @@ def letter_reducer(str)
       changed = false 
       idx = 0 
       # customize iteration to stay on the same scanned position if we do a swap
-      while idx < str_arr.length - 1
+      while idx < str_arr.length - 1 #no need to check last element
         dbl_letter_chunk = legend[str_arr[idx] + str_arr[idx+1]]
         if dbl_letter_chunk
           str_arr[idx] = dbl_letter_chunk
@@ -157,12 +182,10 @@ def letter_reducer(str)
         end 
         idx += 1
       end 
-
     end 
   str_arr
 end
-
-
+# p letter_reducer('zzxxy')
 
 #### Math Eval ####
 # Eval is a function that takes a string and executes it as code. This
@@ -318,7 +341,7 @@ end
 # that determines whether a given string is a valid Hong Kong phone number.
 #
 # constraint: You may not use RegExp.
-#
+
 # examples:
 # hk_phone_number?('1234 5678') #=> true
 # hk_phone_number?('ar32 t19i') #=> false
