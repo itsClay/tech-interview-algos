@@ -102,10 +102,7 @@ def gen_bot_move(prev_player_moves)
   end
 
 end
-
-p rps_bot("rpsssprrr")
-# => "xpxxrrrrx"
-     "xpxxrrrrxp"
+# p rps_bot("rpsssprrr")
 
 # ### Pascal's Triangle ####
 # This is an example of Pascal's Triangle:
@@ -137,7 +134,31 @@ p rps_bot("rpsssprrr")
 # pascals_triangle(0) => [[1]]
 # pascals_triangle(2) => [[1], [1,1], [1,2,1]]
 # pascals_triangle(4) => [[1], [1,1], [1,2,1], [1,3,3,1], [1,4,6,4,1]]
+def make_row(prev_row)
+  result = [1]
+  (prev_row.length).times do |idx|
+    left = prev_row[idx]
+    right = prev_row[idx+1]
 
+    if left && right
+      result << left + right
+    elsif left.nil?
+      result << right + 1
+    elsif right.nil?
+      result << left
+    end
+  end
+  result
+end
+
+def pascals_triangle(depth)
+  triangle = [[1]]
+  (depth - 1).times do
+    triangle << make_row(triangle.last)
+  end
+  triangle
+end
+# p pascals_triangle(4)
 
 # ### Letter Reducer ####
 # Write a method that takes a string that contains only 3 distinct
@@ -207,7 +228,33 @@ end
 #
 # Bonus: If you have extra time, support double-digit numbers.
 # math_eval('10*2/5+16') => 20
+def math_eval(str)
+  # iterate over string values
+  # perhaps utilize a queue till you hit a symbol?
+  # left operand and right operand (do we care about order of operations?)
+  left_operand = ''
+  right_operand = ''
+  operator = ''
+  total = 0
 
+  str.chars.each do |ch|
+    p ch
+    break if ch.match(/()+\-*/) && operator != ''
+    operator = ch.match(/()+\-*/)
+    left_operand = ch if ch.match(/0-9/) && operator == ''
+    right_operand += ch if ch.match(/0-9/) && operator != ''
+  end
+
+  p "operator: #{operator}, left_operand: #{left_operand}, right_operand: #{right_operand}"
+  return left_operand.to_i if operator == ''
+  return left_operand.to_i + right_operand.to_i if operator == '+'
+  return left_operand.to_i - right_operand.to_i if operator == '-'
+  return left_operand.to_i / right_operand.to_i if operator == '/'
+  return left_operand.to_i * right_operand.to_i if operator == '*'
+end
+# p math_eval('5')
+# p math_eval('5+5')
+# p math_eval('1+2*3')
 
 #### Thrice Dice ####
 # Thrice dice is a game played with five six-sided dice. Write a
@@ -278,7 +325,28 @@ end
 # aliquot_sequence(10, 4) # => [10, 8, 7, 1]
 # aliquot_sequence(10, 2) # => [10, 8]
 # aliquot_sequence(7, 4) # => [7, 1, 0, 0]
+def aliquot_sum(num)
+  factors = []
+  (1...num).each do |n|
+    factors << n if num % n == 0
+  end
+  factors.reduce(:+)
+end
+p aliquot_sum(7)
 
+def aliquot_sequence(base, n)
+  results = [base]
+  until results.length == n
+    new_num = aliquot_sum(results.last)
+    if new_num.nil?
+      results << 0
+    else
+      results << new_num
+    end
+  end
+  results
+end
+p aliquot_sequence(10, 8)
 
 #### Next Prime ####
 # Given an array of numbers, replace each prime number in the array with
@@ -347,5 +415,5 @@ end
 # hk_phone_number?('ar32 t19i') #=> false
 # hk_phone_number?('123 45678') #=> false
 # hk_phone_number?('12345678') #=> false
-# hk_phone_number?('1234 567') #=> false
 # hk_phone_number?('12345 12345') #=> false
+# hk_phone_number?('1234 567') #=> false
