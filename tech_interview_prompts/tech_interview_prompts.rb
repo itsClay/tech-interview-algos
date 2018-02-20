@@ -34,7 +34,6 @@ def ping_pong_filter(arr)
   end
   result
 end
-
 # p ping_pong_filter([3, 5, 7, 8, 9, 2])
 
 
@@ -278,10 +277,54 @@ end
 # thrice_dice([5, 1, 3, 4, 1]) #=> 50 + 100 + 100 = 250
 # thrice_dice([1, 1, 1, 3, 1]) #=> 1000 + 100 = 1100
 # thrice_dice([2, 4, 4, 5, 4]) #=> 400 + 50 = 450
+def thrice_dice(arr)
+  dice_counter = Hash.new(0)
+  score = 0
 
+  arr.each do |el|
+    dice_counter[el] += 1
+  end
 
+  arr.each do |k|
+    # 3 of the same dice
+    case dice_counter[k]
+    when 3
+      case k
+      when 1
+        score += 1000
+        dice_counter[k] -= 3
+      when 2
+        score += 200
+        dice_counter[k] -= 3
+      when 3
+        score += 300
+        dice_counter[k] -= 3
+      when 4
+        score += 400
+        dice_counter[k] -= 3
+      when 5
+        score += 500
+        dice_counter[k] -= 3
+      when 6
+        score += 600
+        dice_counter[k] -= 3
+      end
+    end
+    
+    if k == 5 && dice_counter[k] > 0
+      score += 50
+      dice_counter[k] -= 1
+    elsif k == 1 && dice_counter[k] > 0
+      score += 100
+      dice_counter[k] -= 1
+    end
 
-
+  end
+  score
+end
+p thrice_dice([5, 1, 3, 4, 1]) #=> 50 + 100 + 100 = 250
+p thrice_dice([1, 1, 1, 3, 1]) #=> 1000 + 100 = 1100
+p thrice_dice([2, 4, 4, 5, 4]) #=> 400 + 50 = 450
 
 
 
@@ -319,7 +362,7 @@ def five_sort(nums)
   end
   nums
 end
-p five_sort([1, 5, 3, 5, 5, 2, 3])
+# p five_sort([1, 5, 3, 5, 5, 2, 3])
 
 #### Aliquot Sequence ####
 # A number's aliquot sum is the sum of all of its factors excluding itself.
