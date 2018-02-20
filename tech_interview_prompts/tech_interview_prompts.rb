@@ -302,7 +302,24 @@ end
 # * You are only permitted to use a 'while' loop
 # * You are not permitted to call any methods on the array. Only the
 #    use of [], []=, and length are permitted.
-
+def five_sort(nums)
+  i = 0
+  sorted = false
+  while !sorted
+    sorted = true
+    while i < nums.length - 1
+      if nums[i] == 5 && nums[i + 1] != 5
+        # p "SWAPPING i: #{i}, nums[i]: #{nums[i]}, nums[i + 1]: #{nums[i + 1]}"
+        nums[i], nums[i + 1] = nums[i + 1], nums[i]
+        sorted = false
+      end
+      i += 1
+    end
+    i = 0
+  end
+  nums
+end
+p five_sort([1, 5, 3, 5, 5, 2, 3])
 
 #### Aliquot Sequence ####
 # A number's aliquot sum is the sum of all of its factors excluding itself.
@@ -326,27 +343,23 @@ end
 # aliquot_sequence(10, 2) # => [10, 8]
 # aliquot_sequence(7, 4) # => [7, 1, 0, 0]
 def aliquot_sum(num)
+  return 0 if num <= 1
   factors = []
   (1...num).each do |n|
     factors << n if num % n == 0
   end
   factors.reduce(:+)
 end
-p aliquot_sum(7)
 
 def aliquot_sequence(base, n)
   results = [base]
   until results.length == n
     new_num = aliquot_sum(results.last)
-    if new_num.nil?
-      results << 0
-    else
-      results << new_num
-    end
+    results << new_num
   end
   results
 end
-p aliquot_sequence(10, 8)
+# p aliquot_sequence(7, 4)
 
 #### Next Prime ####
 # Given an array of numbers, replace each prime number in the array with
@@ -359,6 +372,24 @@ p aliquot_sequence(10, 8)
 # next_prime([4,6,8,10]) #=> [4,6,8,10]
 # next_prime([2,5,4,7]) #=> [3,7,4,11]
 
+def is_prime?(num)
+  (2...num).none? { |n| num % n == 0 }
+end
+
+def next_one_prime(num)
+  next_num = num + 1
+  return next_num if is_prime?(next_num)
+  next_one_prime(next_num)
+end
+
+def next_prime(arr)
+  results = []
+  arr.each do |el|
+    !is_prime?(el) ? results << el : results << next_one_prime(el)
+  end
+  results
+end
+# p next_prime([2,5,4,7])
 
 ######MEDIUM SOLO PROMPTS######
 
