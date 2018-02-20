@@ -432,6 +432,19 @@ end
 # encoded_string = "m1i1s2i1s2i1p2i1"
 # decoded_string = decode(encoded_string)
 # decoded_string # => "mississippi"
+def decode(str)
+  result = ""
+  str.chars.each_with_index do |el, idx|
+    if idx % 2 == 0
+      (str[idx + 1].to_i).times do
+        result += el
+      end
+    end
+  end
+  result
+end
+encoded_string = "m1i1s2i1s2i1p2i1"
+p decoded_string = decode(encoded_string)
 
 
 #### HK Phone Number ####
@@ -477,9 +490,9 @@ def hk_phone_number?(str)
   end
   true
 end
-p hk_phone_number?('1234 5678')
-p hk_phone_number?('ar32 t19i')
-p hk_phone_number?('123 45678')
-p hk_phone_number?('12345678')
-p hk_phone_number?('12345 12345')
-p hk_phone_number?('1234 567')
+# p hk_phone_number?('1234 5678')
+# p hk_phone_number?('ar32 t19i')
+# p hk_phone_number?('123 45678')
+# p hk_phone_number?('12345678')
+# p hk_phone_number?('12345 12345')
+# p hk_phone_number?('1234 567')
