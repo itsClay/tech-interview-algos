@@ -401,7 +401,17 @@ end
 # ary = [1, 5, 5, 7, 16, 8, 1, 8]
 # unique = unique_items(ary)
 # unique # => [7, 16]
-
+def unique_items(arr) #O(n)
+  hash = Hash.new(0)
+  results = []
+  arr.each do |el|
+    hash[el] += 1
+  end
+  hash.each { |k, v| results << k if v == 1 }
+  results
+end
+# ary = [1, 5, 5, 7, 16, 8, 1, 8]
+# p unique = unique_items(ary)
 
 #### Pair Sum ####
 # Write a function that accepts an array of numbers and a target.
@@ -432,19 +442,21 @@ end
 # encoded_string = "m1i1s2i1s2i1p2i1"
 # decoded_string = decode(encoded_string)
 # decoded_string # => "mississippi"
+
 def decode(str)
   result = ""
   str.chars.each_with_index do |el, idx|
     if idx % 2 == 0
-      (str[idx + 1].to_i).times do
+      key = str[idx + 1].to_i
+      key.times do
         result += el
       end
     end
   end
   result
 end
-encoded_string = "m1i1s2i1s2i1p2i1"
-p decoded_string = decode(encoded_string)
+# encoded_string = "m1i1s2i1s2i1p2i1"
+# p decoded_string = decode(encoded_string)
 
 
 #### HK Phone Number ####
