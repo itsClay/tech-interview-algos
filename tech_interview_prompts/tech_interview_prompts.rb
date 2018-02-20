@@ -448,3 +448,38 @@ end
 # hk_phone_number?('12345678') #=> false
 # hk_phone_number?('12345 12345') #=> false
 # hk_phone_number?('1234 567') #=> false
+def hk_phone_number?(str)
+  # setup a dictionary where indices correspond to a number for O(1) lookup
+  numbers = {
+    '0' => true,
+    '1' => true,
+    '2' => true,
+    '3' => true,
+    '4' => true,
+    '5' => true,
+    '6' => true,
+    '7' => true,
+    '8' => true,
+    '9' => true
+  }
+  if str.length == 9
+    i = 0
+    while i < str.length
+      if i == 4 && str[i] != ' '
+        return false
+      elsif i!= 4 && !numbers[str[i]]
+        return false
+      end
+      i += 1
+    end
+  else
+    return false
+  end
+  true
+end
+p hk_phone_number?('1234 5678')
+p hk_phone_number?('ar32 t19i')
+p hk_phone_number?('123 45678')
+p hk_phone_number?('12345678')
+p hk_phone_number?('12345 12345')
+p hk_phone_number?('1234 567')
