@@ -310,7 +310,7 @@ def thrice_dice(arr)
         dice_counter[k] -= 3
       end
     end
-    
+
     if k == 5 && dice_counter[k] > 0
       score += 50
       dice_counter[k] -= 1
@@ -322,9 +322,9 @@ def thrice_dice(arr)
   end
   score
 end
-p thrice_dice([5, 1, 3, 4, 1]) #=> 50 + 100 + 100 = 250
-p thrice_dice([1, 1, 1, 3, 1]) #=> 1000 + 100 = 1100
-p thrice_dice([2, 4, 4, 5, 4]) #=> 400 + 50 = 450
+# p thrice_dice([5, 1, 3, 4, 1]) #=> 50 + 100 + 100 = 250
+# p thrice_dice([1, 1, 1, 3, 1]) #=> 1000 + 100 = 1100
+# p thrice_dice([2, 4, 4, 5, 4]) #=> 400 + 50 = 450
 
 
 
