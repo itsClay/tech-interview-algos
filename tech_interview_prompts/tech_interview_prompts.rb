@@ -535,7 +535,7 @@ def hk_phone_number?(str)
     while i < str.length
       if i == 4 && str[i] != ' '
         return false
-      elsif i!= 4 && !numbers[str[i]]
+      elsif i != 4 && !numbers[str[i]]
         return false
       end
       i += 1
