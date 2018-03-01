@@ -551,3 +551,36 @@ end
 # p hk_phone_number?('12345678')
 # p hk_phone_number?('12345 12345')
 # p hk_phone_number?('1234 567')
+
+# ENCRYPT
+
+# Write a method named encrypt(str) which takes in a string and
+# returns an array of pairs: each pair contains the next distinct
+# letter in the string, and the number consecutive repeats.
+
+# encrypt("aaabbcbbaaa") == [
+# ["a", 3],
+# ["b", 2],
+# ["c", 1],
+# ["b", 2],
+# ["a", 3]
+# ]
+
+def encrypt(str)
+  result = []
+  
+  consec_counter = 0
+
+  str.chars.each_with_index do |current, idx|
+    right = str[idx + 1]
+    consec_counter += 1
+    # a b a
+    if right != current
+      result << [current, consec_counter]
+      consec_counter = 0
+    end
+  end
+  result
+end
+
+# p encrypt("aaabbcbbaaa")
