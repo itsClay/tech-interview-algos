@@ -450,8 +450,7 @@ def unique_items(arr) #O(n)
   arr.each do |el|
     hash[el] += 1
   end
-  hash.each { |k, v| results << k if v == 1 }
-  results
+  hash.select { |k, v| k if v == 1 }.keys
 end
 # ary = [1, 5, 5, 7, 16, 8, 1, 8]
 # p unique = unique_items(ary)
@@ -491,7 +490,7 @@ def pair_sum(arr, target)
   end
   result
 end
-p pair_sum([1, 3, 0, 2, 1], 3)
+# p pair_sum([1, 3, 0, 2, 1], 3)
 
 #### Decode ####
 # You are given an encoded string. The code is defined as follows:
