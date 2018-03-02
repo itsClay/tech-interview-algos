@@ -473,6 +473,25 @@ end
 # pairs = pair_sum(ary, target)
 # pairs # => [[0, 3], [1, 2], [3, 4]]
 
+def pair_sum(arr, target)
+  # basic approach is nested loops scanning each element checking if its == to target
+  result = []
+  i = 0
+  j = i + 1
+  while i < arr.length
+    while j < arr.length
+      p i, j
+      if i != j && arr[i] + arr[j] == target
+        result << [i, j]
+      end
+      j += 1
+    end
+    i += 1
+    j = i + 1
+  end
+  result
+end
+p pair_sum([1, 3, 0, 2, 1], 3)
 
 #### Decode ####
 # You are given an encoded string. The code is defined as follows:
