@@ -647,7 +647,7 @@ def three_sum(arr)
       p sorted
       if (a + b + c) == 0 # found one, put this in our results
         p 'we got one'
-        results << [a, b, c] unless b == sorted[start + 1]
+        results << [a, b, c] unless results[-1] == [a, b, c] 
         if b == sorted[start + 1] # is the next element for b the same
           start += 1
         else
