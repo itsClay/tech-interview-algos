@@ -227,22 +227,31 @@ end
 #
 # Bonus: If you have extra time, support double-digit numbers.
 # math_eval('10*2/5+16') => 20
+# [10, '*', 2, '/', 5, '+', 16]
 def math_eval(str)
   # iterate over string values
   # perhaps utilize a queue till you hit a symbol?
   # left operand and right operand (do we care about order of operations?)
-  left_operand = ''
-  right_operand = ''
-  operator = ''
+  copy = str
   total = 0
+  tokens = []
 
-  str.chars.each do |ch|
-    p ch
-    break if ch.match(/()+\-*/) && operator != ''
-    operator = ch.match(/()+\-*/)
-    left_operand = ch if ch.match(/0-9/) && operator == ''
-    right_operand += ch if ch.match(/0-9/) && operator != ''
+  copy.chars.each_with_index do |ch, idx|
+    if ch == '*' || ch == '/' || ch == '+' || ch == '-'
+      divided = str.split(ch)
+      tokens << divided.shift.to_i
+      tokens << ch
+      copy = divided
+    end
+    if idx == copy.length - 1
+      tokens << copy
+    end
+    # break if ch.match(/()+\-*/) && operator != ''
+    # operator = ch.match(/()+\-*/)
+    # left_operand = ch if ch.match(/0-9/) && operator == ''
+    # right_operand += ch if ch.match(/0-9/) && operator != ''
   end
+  return tokens
 
   p "operator: #{operator}, left_operand: #{left_operand}, right_operand: #{right_operand}"
   return left_operand.to_i if operator == ''
@@ -251,8 +260,8 @@ def math_eval(str)
   return left_operand.to_i / right_operand.to_i if operator == '/'
   return left_operand.to_i * right_operand.to_i if operator == '*'
 end
-# p math_eval('5')
-# p math_eval('5+5')
+p math_eval('5')
+p math_eval('5+5')
 # p math_eval('1+2*3')
 
 #### Thrice Dice ####
@@ -602,3 +611,57 @@ def encrypt(str)
 end
 
 # p encrypt("aaabbcbbaaa")
+
+# =================BONUS LEETCODE PROBLEMS=====================
+# Given an array S of n integers, are there elements a, b, c in S 
+# such that a + b + c = 0? Find all unique triplets in the array 
+# which gives the sum of zero.
+
+# Note: The solution set must not contain duplicate triplets.
+
+# For example, given array S = [-1, 0, 1, 2, -1, -4],
+
+# A solution set is:
+# [
+#   [-1, 0, 1],
+#   [-1, -1, 2]
+# ]
+
+def three_sum(arr)
+  sorted = arr.sort()
+  results = []
+  # 3 index tracking tools, i to start and scan array 1 by one
+  # start to always be one ahead and step till we hit a greater condition
+  # finish to always start from the back and work its way to the front
+  # these will work if the array is sorted
+
+  (0..sorted.length - 3).each do |i|
+    start = i + 1
+    finish = sorted.length - 1
+
+    a = sorted[i]
+    while start < finish
+      b = sorted[start]
+      c = sorted[finish]
+      p a, b, c
+      p sorted
+      if (a + b + c) == 0 # found one, put this in our results
+        p 'we got one'
+        results << [a, b, c] unless b == sorted[start + 1]
+        if b == sorted[start + 1] # is the next element for b the same
+          start += 1
+        else
+          finish -= 1
+        end
+      elsif (a + b + c) > 0 # too big so decrement our finish
+        finish -= 1
+      else # increment our middle pointer
+        start += 1
+      end
+    end    
+
+  end
+
+  results
+end
+p three_sum([-1, 0, 1, 2, -1, -4])
