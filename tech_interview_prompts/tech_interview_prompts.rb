@@ -635,7 +635,7 @@ def three_sum(arr)
   # finish to always start from the back and work its way to the front
   # these will work if the array is sorted
 
-  (0..sorted.length - 3).each do |i|
+  (0..sorted.length - 3).each do |i| # step up until last 2 elements (reserved for next 2 pointers)
     start = i + 1
     finish = sorted.length - 1
 
@@ -646,7 +646,6 @@ def three_sum(arr)
       p a, b, c
       p sorted
       if (a + b + c) == 0 # found one, put this in our results
-        p 'we got one'
         results << [a, b, c] unless results[-1] == [a, b, c] 
         if b == sorted[start + 1] # is the next element for b the same
           start += 1
@@ -664,4 +663,29 @@ def three_sum(arr)
 
   results
 end
-p three_sum([-1, 0, 1, 2, -1, -4])
+# p three_sum([-1, 0, 1, 2, -1, -4])
+
+# Write a method that, given a sentence without punctuation or capitalization, returns the word with the greatest number of repeated letters. Return the first word if there's a tie. It doesn't matter how often individual letters repeat, just that they repeat.
+# word_with_most_repeats("I took the road less traveled and that has made all the difference") => "difference" because "difference" has two repeated letters, more than the other words.
+def word_with_most_repeats(sentence)
+  result = ""
+  max = 0
+  sentence.split(' ').each do |word| 
+    repeats = repeat_letter_count(word) 
+    if repeats > max
+      max = repeats
+      result = word
+    end
+  end
+  result
+end
+
+def repeat_letter_count(word)
+  hash = Hash.new(0)
+  word.each_char { |ch| hash[ch] += 1 }
+  # just count the values that are greater than 1
+  hash.values.select { |val| val > 1 }.length
+end
+
+p repeat_letter_count('difference')
+p word_with_most_repeats("I took the road less traveled and that has made all the difference")
