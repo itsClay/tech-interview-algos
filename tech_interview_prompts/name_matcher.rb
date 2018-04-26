@@ -9,15 +9,11 @@ def name_matcher(arr, name)
     poss_name = full_name.split(' ')
 
     if poss_name.length == 3
-      # assign trues to middle name and initial
       f_name = poss_name[0]
       m_name = poss_name[1]
-      m_initial = m_name[0]
       l_name = poss_name[2]
 
-      # middle_names[m_initial] = true
       middle_names[m_name] = true
-
       first_and_last[f_name] = true
       first_and_last[l_name] = true
     else
@@ -28,29 +24,28 @@ def name_matcher(arr, name)
   end
 
   count = 0
-  if names.length == 3
-    # p middle_names
-    # p first_and_last
-    # p names
-
-    if middle_names.keys.none? { |m_name| m_name.index(names[1]) || names[1].index(m_name) } &&
-       first_and_last.keys.none? { |m_name| m_name.index(names[1])  || names[1].index(m_name) } &&
-       !middle_names.empty?
-      # p names[1]
-      return false 
+  if names.length == 3 
+    # we have a middle name given so extra checks
+    if (middle_names.keys.none? do |m_name| 
+          m_name.index(names[1]) || names[1].index(m_name) 
+        end) &&
+       (first_and_last.keys.none? do |m_name| 
+          m_name.index(names[1]) || names[1].index(m_name)
+        end) &&
+      !middle_names.empty? 
+      return false
     end
-
     count += 1 if first_and_last[names[0]] || middle_names[names[0]]
     count += 1 if first_and_last[names[2]]
   else
+    # no middle names
     count += 1 if first_and_last[names[0]]
     count += 1 if first_and_last[names[1]]
   end
 
   count >= 2
 end
-# we are given a full middle name but none exist in db (more logic to see if db is empty?)
-# 
+
 
 
 known_aliases = ["Alphonse Gabriel Capone", "Al Capone"]
